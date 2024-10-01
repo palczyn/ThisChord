@@ -1,0 +1,17 @@
+{
+    "content":  "Which interval is Perfect fifth?",
+    "components": [
+        {
+            "type": 2,
+            "style": 1,
+            "label": "{{ .name1 }}",
+            "custom_id": "{{ .customId1 }}"
+        }, 
+        {
+            "type": 2,
+            "style": 1,
+            "label": "{{ .name2 }}",
+            "custom_id": "{{ .customId2 }}"
+        }
+    ]
+}
