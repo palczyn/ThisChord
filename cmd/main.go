@@ -13,7 +13,6 @@ import (
 )
 
 var token string
-var player *discord.Player
 
 func main() {
 	err := godotenv.Load()
@@ -30,13 +29,6 @@ func main() {
 		return
 	}
 
-	// Load the sound file.
-	player, err = discord.LoadSound()
-	if err != nil {
-		fmt.Println("Error loading sound: ", err)
-		return
-	}
-
 	// Create a new Discord session using the provided bot token.
 	dg, err := discordgo.New("Bot " + token)
 	if err != nil {
@@ -48,7 +40,7 @@ func main() {
 	dg.AddHandler(discord.Ready)
 
 	// Register messageCreate as a callback for the messageCreate events.
-	dg.AddHandler(discord.HandleMessageCreateWithPlayer(player))
+	dg.AddHandler(discord.MessageCreateWithFileName("airhorn"))
 
 	// Register guildCreate as a callback for the guildCreate events.
 	dg.AddHandler(discord.GuildCreate)
@@ -65,7 +57,7 @@ func main() {
 	}
 
 	// Wait here until CTRL-C or other term signal is received.
-	fmt.Println("Airhorn is now running.  Press CTRL-C to exit.")
+	fmt.Println("ThisChord is now running.  Press CTRL-C to exit.")
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
 	<-sc

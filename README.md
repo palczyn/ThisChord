@@ -5,7 +5,8 @@ This is a project for honing my Golang skills. Any feedback would be appreciated
 
 # Implemented functionalities
 
-hue
+## Airhorn
+Type in `!airhorn` for bot to join to your current voice channel and play an airhorn sound.
 
 # To be implemented:
 ## Ear training

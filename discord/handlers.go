@@ -15,8 +15,8 @@ func Ready(s *discordgo.Session, _ *discordgo.Ready) {
 	s.UpdateGameStatus(0, "!airhorn")
 }
 
-func HandleMessageCreateWithPlayer(player *Player) func(*discordgo.Session, *discordgo.MessageCreate) {
-	return func(s *discordgo.Session, m *discordgo.MessageCreate) {
+func MessageCreateWithFileName(fileName string) func(*discordgo.Session, *discordgo.MessageCreate) {
+	return func (s *discordgo.Session, m *discordgo.MessageCreate) {
 		// Ignore all messages created by the bot itself
 		// This isn't required in this specific example but it's a good practice.
 		if m.Author.ID == s.State.User.ID {
@@ -24,7 +24,7 @@ func HandleMessageCreateWithPlayer(player *Player) func(*discordgo.Session, *dis
 		}
 
 		// check if the message is "!airhorn"
-		if strings.HasPrefix(m.Content, "!airhorn") {
+		if strings.HasPrefix(m.Content, "!"+fileName) {
 
 			// Find the channel that the message came from.
 			c, err := s.State.Channel(m.ChannelID)
@@ -43,7 +43,7 @@ func HandleMessageCreateWithPlayer(player *Player) func(*discordgo.Session, *dis
 			// Look for the message sender in that guild's current voice states.
 			for _, vs := range g.VoiceStates {
 				if vs.UserID == m.Author.ID {
-					err = player.PlaySound(s, g.ID, vs.ChannelID)
+					err = PlaySound(s, g.ID, vs.ChannelID, fileName)
 					if err != nil {
 						fmt.Println("Error playing sound:", err)
 					}
@@ -54,14 +54,6 @@ func HandleMessageCreateWithPlayer(player *Player) func(*discordgo.Session, *dis
 		}
 	}
 }
-
-// MessageCreate is called by AddHandler every time a new
-// message is created on any channel that the autenticated bot has access to.
-func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
-
-
-}
-
 
 // GuildCreate is called by AddHandler every time a new
 // guild is joined.
